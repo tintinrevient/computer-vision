@@ -1,5 +1,31 @@
 # Camera Calibration
 
+## How to run Camera Calibration
+```
+./CameraCalibration settings.xml
+```
+
+## Install OpenCV 4.2 on Mac OS (C++)
+
+Install OpenCV:
+```
+brew search opencv
+brew install opencv
+```
+
+Update .bash_profile:
+```
+export PATH="/usr/local/opt/opencv/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/opencv/lib"
+export CPPFLAGS="-I/usr/local/opt/opencv/include"
+```
+
+Compile - use CMake:
+```
+cmake . -DCMAKE_CXX_FLAGS="-std=c++11"
+make
+```
+
 ## Install OpenCV 3.4 on Mac OS (C++)
 
 Install OpenCV:
@@ -21,17 +47,15 @@ Verify:
 pkg-config --cflags --libs opencv
 ```
 
-## Compile and Run
-
-Option 1 - Use CMake:
+Compile - use CMake (Option 1):
 ```
 cmake .
 make
 ```
 
-Option 2 - Use g++:
+Compile - use g++ (Option 2):
 ```
-g++ $(pkg-config --cflags --libs opencv) -std=c++11 CameraCalibration.cpp -o CameraCalibration
+g++ $(pkg-config --cflags --libs opencv) CameraCalibration.cpp -o CameraCalibration
 ```
 
 ## References
