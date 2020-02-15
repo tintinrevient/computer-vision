@@ -14,6 +14,37 @@
   <img src="./pix/rotation-2.png" width="700">
 </p>
 
+## Extrinsic Parameters
+<p float="left">
+  <img src="./pix/extrinsic-R-t-2d.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/extrinsic-R-t-3D.png" width="700">
+</p>
+
+## Intrinsic Parameters
+<p float="left">
+  <img src="./pix/intrinsic-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/intrinsic-2.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/intrinsic-K.png" width="700">
+</p>
+
+## Extrinsic & Intrinsic Parameters
+<p float="left">
+  <img src="./pix/extrinsic-intrinsic-parameters.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/extrinsic-intrinsic-P.png" width="700">
+</p>
+
 ## References
 * https://opencv.org/
 * https://docs.opencv.org/2.4/doc/tutorials/calib3d/table_of_content_calib3d/table_of_content_calib3d.html
