@@ -2,7 +2,7 @@
 
 ## How to run Camera Calibration
 ```
-./CameraCalibration settings.xml
+./CameraCalibration -w=4 -h=5 -s=0.025 -o=camera.yml -op -oe image_list.xml
 ```
 
 ## Install OpenCV 4.2 on Mac OS (C++)
