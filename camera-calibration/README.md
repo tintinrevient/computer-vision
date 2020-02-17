@@ -20,10 +20,20 @@ export LDFLAGS="-L/usr/local/opt/opencv/lib"
 export CPPFLAGS="-I/usr/local/opt/opencv/include"
 ```
 
-Compile - use CMake:
+Verify:
+```
+ pkg-config --cflags --libs opencv4
+```
+
+Compile - use CMake (Option 1):
 ```
 cmake . -DCMAKE_CXX_FLAGS="-std=c++11"
 make
+```
+
+Compile - use g++ (Option 2):
+```
+g++ $(pkg-config --cflags --libs opencv4) -std=c++11 CameraCalibration.cpp -o CameraCalibration
 ```
 
 ## Install OpenCV 3.4 on Mac OS (C++)
