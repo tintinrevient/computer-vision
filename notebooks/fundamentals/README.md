@@ -127,6 +127,15 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 ## Translation
 * **translation vector** = origin<sub>object</sub> - origin<sub>camera</sub>
 
+## Planar Homography
+<p float="left">
+  <img src="./pix/planar-homography-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/planar-homography-2.png" width="700">
+</p>
+
 ## References
 * https://opencv.org/
 * https://docs.opencv.org/2.4/doc/tutorials/calib3d/table_of_content_calib3d/table_of_content_calib3d.html
