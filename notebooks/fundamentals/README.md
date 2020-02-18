@@ -98,6 +98,35 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/rodrigues-transform.png" width="700">
 </p>
 
+## Camera Coordinates and Object Coordinates
+* R = **rotation matrix**
+* T = **translation vector**
+
+<p float="left">
+  <img src="./pix/crotation-and-translation.png" width="300">
+</p>
+
+<p float="left">
+  <img src="./pix/camera-and-object-coordinates.png" width="700">
+</p>
+
+## Rotation
+* rotate around x-, y-, and z-axes in sequence with respective rotation angles ψ, φ, and θ
+* the total rotation matrix R = R<sub>x</sub>(ψ) * R<sub>y</sub>(φ) * R<sub>z</sub>(θ)
+* R * R<sup>T</sup> = R<sup>T</sup> * R = I<sub>3</sub>, where I<sub>3</sub> is the 3x3 identity matrix
+* R's **inverse** = R's **transpose**
+
+<p float="left">
+  <img src="./pix/rotation-matrix-1.png" width="400">
+</p>
+
+<p float="left">
+  <img src="./pix/rotation-matrix-2.png" width="700">
+</p>
+
+## Translation
+* **translation vector** = origin<sub>object</sub> - origin<sub>camera</sub>
+
 ## References
 * https://opencv.org/
 * https://docs.opencv.org/2.4/doc/tutorials/calib3d/table_of_content_calib3d/table_of_content_calib3d.html
