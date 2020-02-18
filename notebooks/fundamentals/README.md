@@ -103,7 +103,7 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 * T = **translation vector**
 
 <p float="left">
-  <img src="./pix/crotation-and-translation.png" width="300">
+  <img src="./pix/rotation-and-translation.png" width="300">
 </p>
 
 <p float="left">
