@@ -45,6 +45,59 @@
   <img src="./pix/extrinsic-intrinsic-P.png" width="700">
 </p>
 
+## Pinhole Camera Model
+<p float="left">
+  <img src="./pix/pinhole-camera-model-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/pinhole-camera-model-2.png" width="700">
+</p>
+
+## Projective Geometry
+* **Homogeneous coordinates**: (x, y, z) in a projective space of dimension 3 becomes (x, y, z, w)
+* **Homogeneous coordinates**: two points whose values are **proportional** are **equivalent** points
+* M = camera intrinsics matrix
+  * c<sub>x</sub> and c<sub>y</sub> = displacement between **principal point** (intersection of the optical axis and the image plane) and **center of coordinates** on the projection screen
+  * f<sub>x</sub> = F * s<sub>x</sub> and f<sub>y</sub> = F * s<sub>y</sub>
+    * Two different focal lengths f<sub>x</sub> and f<sub>y</sub>, because the individual pixels on a typical low-cost imager are rectangular rather than square
+    * F = physical focal length of the lens
+    * s<sub>x</sub> and s<sub>y</sub> = the size of the individual imager elements, which is measured by **pixels per millimeter**
+
+<p float="left">
+  <img src="./pix/projective-geometry-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/projective-geometry-2.png" width="500">
+</p>
+
+## Distortion
+distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2</sub>, k<sub>3</sub>)
+
+### Radial Distortion
+<p float="left">
+  <img src="./pix/radial-distortion-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/radial-distortion-2.png" width="500">
+</p>
+
+### Tangential Distortion
+<p float="left">
+  <img src="./pix/tangential-distortion-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/tangential-distortion-2.png" width="500">
+</p>
+
+## Rodrigues Transform
+<p float="left">
+  <img src="./pix/rodrigues-transform.png" width="700">
+</p>
+
 ## References
 * https://opencv.org/
 * https://docs.opencv.org/2.4/doc/tutorials/calib3d/table_of_content_calib3d/table_of_content_calib3d.html
