@@ -177,8 +177,8 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 </p>
 
 ## Essential Matrix E and Fundamental Matrix F
-* **fundamental matrix F** operates in image pixel coordinates
 * **essential matrix E** operates in physical coordinates
+* **fundamental matrix F** operates in image pixel coordinates
 
 <p float="left">
   <img src="./pix/E.png" width="300">
