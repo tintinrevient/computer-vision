@@ -171,6 +171,25 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/triangulation-2.png" width="700">
 </p>
 
+## Epipolar Geometry
+<p float="left">
+  <img src="./pix/epipolar-line.png" width="700">
+</p>
+
+## Essential Matrix E and Fundamental Matrix F
+* **fundamental matrix F** operates in image pixel coordinates
+* **essential matrix E** operates in physical coordinates
+
+<p float="left">
+  <img src="./pix/E.png" width="300">
+  <img src="./pix/F.png" width="300">
+</p>
+
+<p float="left">
+  <img src="./pix/essential-matrix.png" width="700">
+</p>
+
+
 ## References
 * https://opencv.org/
 * https://docs.opencv.org/2.4/doc/tutorials/calib3d/table_of_content_calib3d/table_of_content_calib3d.html
