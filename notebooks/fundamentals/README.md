@@ -148,6 +148,24 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/affine-and-perspective-transform.png" width="700">
 </p>
 
+## Stereo Imaging (Two Cameras)
+* **undistortion**: remove the radial and tangential lens distortion -> undistorted images
+* **rectification**: adjust the angles and distances between cameras -> rectified and **row-aligned**: two image planes are coplanar & two image rows are collinear (**frontal parallel**)
+* **correspondence**: find the same features in the left and right camera views -> **disparity map**: x<sub>l</sub> - x<sub>r</sub>
+* **reprojection**: disparity map -> **triangulation** -> depth map
+
+## Triangulation
+<p float="left">
+  <img src="./pix/triangulation.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/disparity-depth-1.png" width="500">
+</p>
+
+<p float="left">
+  <img src="./pix/disparity-depth-2.png" width="700">
+</p>
 
 ## References
 * https://opencv.org/
