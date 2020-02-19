@@ -156,7 +156,7 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 
 ## Triangulation
 <p float="left">
-  <img src="./pix/triangulation.png" width="700">
+  <img src="./pix/triangulation-1.png" width="700">
 </p>
 
 <p float="left">
@@ -165,6 +165,10 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 
 <p float="left">
   <img src="./pix/disparity-depth-2.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/triangulation-2.png" width="700">
 </p>
 
 ## References
