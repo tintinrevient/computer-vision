@@ -85,9 +85,7 @@ static void saveCameraParams( const string& filename,
 int main(int argc, char** argv)
 {
     Size boardSize = Size(6, 9);
-
     int winSize = 11;
-
     float squareSize = 0.025; // unit = meters
 
     string inputFilename = "image_list.xml";
@@ -95,23 +93,22 @@ int main(int argc, char** argv)
 
     vector<string> imageList;
     int i, j, nframes;
+    Size imageSize;
 
     readStringList(samples::findFile(inputFilename), imageList);
 
     if(!imageList.empty())
         nframes = (int) imageList.size();
 
-    Size imageSize;
-
-    vector<vector<Point2f> > imagePoints;
-    vector<vector<Point3f> > objectPoints;
-    vector<Point3f> objPoints;
+    vector<vector<Point2f> > imgPointsOfAllFrames;
+    vector<vector<Point3f> > objPointsOfAllFrames;
+    vector<Point3f> objPointsOfOneFrame;
 
     for(i = 0; i < boardSize.height; i++)
     {
         for(j = 0; j < boardSize.width; j++)
         {
-            objPoints.push_back(Point3f(float(j * squareSize), float(i * squareSize), 0));
+            objPointsOfOneFrame.push_back(Point3f(float(j * squareSize), float(i * squareSize), 0));
         }
     }
 
@@ -122,25 +119,24 @@ int main(int argc, char** argv)
         Mat view, viewGray;
 
         view = imread(imageList[i], 1);
-
         if(view.empty())
             break;
 
+        cvtColor(view, viewGray, COLOR_BGR2GRAY);
         imageSize = view.size();
 
-        vector<Point2f> pointbuf;
-        cvtColor(view, viewGray, COLOR_BGR2GRAY);
+        vector<Point2f> imgPointsOfOneFrame;
 
-        bool found = findChessboardCorners(view, boardSize, pointbuf,
+        bool found = findChessboardCorners(view, boardSize, imgPointsOfOneFrame,
                                            CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_FAST_CHECK | CALIB_CB_NORMALIZE_IMAGE);
         if(found) {
-            cornerSubPix(viewGray, pointbuf, Size(winSize, winSize),
+            cornerSubPix(viewGray, imgPointsOfOneFrame, Size(winSize, winSize),
                          Size(-1,-1), TermCriteria(TermCriteria::EPS+TermCriteria::COUNT, 30, 0.0001));
 
-            imagePoints.push_back(pointbuf);
-            objectPoints.push_back(objPoints);
+            imgPointsOfAllFrames.push_back(imgPointsOfOneFrame);
+            objPointsOfAllFrames.push_back(objPointsOfOneFrame);
 
-            drawChessboardCorners(view, boardSize, Mat(pointbuf), found);
+            drawChessboardCorners(view, boardSize, Mat(imgPointsOfOneFrame), found);
         }
 
         imshow("Image View", view);
@@ -154,7 +150,7 @@ int main(int argc, char** argv)
     vector<Mat> rvecs, tvecs;
     Mat cameraMatrix, distCoeffs;
 
-    calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs, tvecs,
+    calibrateCamera(objPointsOfAllFrames, imgPointsOfAllFrames, imageSize, cameraMatrix, distCoeffs, rvecs, tvecs,
                     CALIB_FIX_K3 | CALIB_USE_LU, TermCriteria(TermCriteria::EPS+TermCriteria::COUNT, 30, 0.0001));
 
     saveCameraParams(outputFilename, imageSize, boardSize, squareSize,
