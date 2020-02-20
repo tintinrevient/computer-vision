@@ -250,9 +250,22 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 </p>
 
 **semi-global block matching (SGBM) algorithm**: 
-* matching is done at subpixel level
-* enforce a **global smoothness constraint** on the computed depth information
+* precompute a C(x, y, d) per-pixel cost map that matches left_image(x, y) and right_image(x-d, y) using **Birchfield-Tomasi metrics**
+* initialize the accumulator 3D cost map S(x, y, d) with 0
+* for each of the 3-, 5-, or 8-direction (r), compute S<sup>(r)</sup>(x, y, d) using an iterative procedure
+* add S<sup>(r)</sup>(x, y, d) for all r's to S(x, y, d)
+* once S(x, y, d) is complete, we find d<sup>*</sup>(x, y) as argmin of S(x, y, d)
+* we use the same uniqueness check and the same subpixel interpolation as in the StereoBM algorithm
+* do the left-right check to make sure that left-to-right and right-to-left correspondences are consistent
+* filter speckles using cv::filterSpeckles
 
+<p float="left">
+  <img src="./pix/path-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/path-2.png" width="700">
+</p>
 
 ## References
 * https://opencv.org/
