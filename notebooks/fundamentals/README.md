@@ -209,7 +209,7 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/projection-matrix-2.png" width="300">
 </p>
 
-**cv::initUndistortRectifyMap()** -> map1 and map2 (undistort map)
+**cv::initUndistortRectifyMap()** -> map1 and map2 (undistort map) -> remap()
 * it is called once for the left image and once for the right image from the stereo image pair
 
 <p float="left">
