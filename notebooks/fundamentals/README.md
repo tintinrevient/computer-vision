@@ -240,6 +240,15 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/disparity-2.png" width="700">
 </p>
 
+**disparity increment** -> **depth range resolution**
+<p float="left">
+  <img src="./pix/disparity-increment.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/stereo-correspondence.png" width="700">
+</p>
+
 **semi-global block matching (SGBM) algorithm**: 
 * matching is done at subpixel level
 * enforce a **global smoothness constraint** on the computed depth information
