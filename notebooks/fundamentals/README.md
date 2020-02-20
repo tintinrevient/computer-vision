@@ -189,7 +189,7 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/essential-matrix.png" width="700">
 </p>
 
-## Rectification
+## Stereo Rectification
 **Hartley's algorithm**:
 * cv::stereoRectifyUncalibrated() -> H1 and H2 (3x3 rectification/homography matrix)
 * find **homographies** that map the **epipoles** to infinity
@@ -219,6 +219,30 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 <p float="left">
   <img src="./pix/rectification-2.png" width="700">
 </p>
+
+## Stereo Correspondence
+**convert two images, one left and one right, into a single depth image**
+
+**block matching (BM) algorithm**:
+* prefiltering to **normalize** image brightness and enhance **texture**
+* correspondence search along **horizontal epipolar lines** using a **SAD (Sum of Absolute Difference)** window
+* postfiltering to eliminate bad correspondence matches
+
+<p float="left">
+  <img src="./pix/bm-algorithm.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/disparity-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/disparity-2.png" width="700">
+</p>
+
+**semi-global block matching (SGBM) algorithm**: 
+* matching is done at subpixel level
+* enforce a **global smoothness constraint** on the computed depth information
 
 
 ## References
