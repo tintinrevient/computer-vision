@@ -206,7 +206,7 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 
 **P**: 3x4 projection matrix (P1 and P2)
 
-**Q**: 4x4 reprojection matrix (Q) -> cv::reprojectionImageTo3D()
+**Q**: 4x4 reprojection matrix (Q) -> cv::reprojectImageTo3D()
 
 <p float="left">
   <img src="./pix/projection-matrix-1.png" width="300">
