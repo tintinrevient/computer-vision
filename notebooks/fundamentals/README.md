@@ -189,6 +189,37 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
   <img src="./pix/essential-matrix.png" width="700">
 </p>
 
+## Rectification
+**Hartley's algorithm**:
+* cv::stereoRectifyUncalibrated() -> H1 and H2 (3x3 rectification/homography matrix)
+* find **homographies** that map the **epipoles** to infinity
+* minimize the computed **disparities** between the two stereo images
+
+<p float="left">
+  <img src="./pix/hartleys-algorithm.png" width="700">
+</p>
+
+**Bouguet's algorithm**:
+* cv::stereoCalibrate() -> cv::stereoRectify -> R1 and R2 (3x3 rectification/rotation matrix), P1 and P2 (3x4 projection matrix), Q (disparity to depth mapping matrix)
+* minimize the amount of change **reprojection** produces for each of the two images
+* maximize the common viewing area
+
+<p float="left">
+  <img src="./pix/projection-matrix-1.png" width="300">
+  <img src="./pix/projection-matrix-2.png" width="300">
+</p>
+
+**cv::initUndistortRectifyMap()** -> map1 and map2 (undistort map)
+* it is called once for the left image and once for the right image from the stereo image pair
+
+<p float="left">
+  <img src="./pix/rectification-1.png" width="700">
+</p>
+
+<p float="left">
+  <img src="./pix/rectification-2.png" width="700">
+</p>
+
 
 ## References
 * https://opencv.org/
