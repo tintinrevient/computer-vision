@@ -204,8 +204,9 @@ distortion coefficients = (k<sub>1</sub>, k<sub>2</sub>, p<sub>1</sub>, p<sub>2<
 * minimize the amount of change **reprojection** produces for each of the two images
 * maximize the common viewing area
 
-**P**: 3x4 projection matrix
-**Q**: 4x4 reprojection matrix
+**P**: 3x4 projection matrix (P1 and P2)
+
+**Q**: 4x4 reprojection matrix (Q)
 
 <p float="left">
   <img src="./pix/projection-matrix-1.png" width="300">
