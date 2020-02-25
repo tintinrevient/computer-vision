@@ -25,30 +25,34 @@ int main(int argc, char** argv)
         return -1;
     fs_config.release();
 
-    Size boardSize = Size(6, 8);
+    Size boardSize = Size(8, 6);
     int winSize = 11;
-    float squareSize = 0.115; // unit = meters -> 115 millimeters
+    float squareSize = 115; //  // Actual size of the checkerboard square in millimeters
 
+    vector<Point2f> boardCorners;
     vector<Point2f> imgPoints;
     vector<Point3f> objPoints;
     Mat rvecs, tvecs;
 
     FileStorage fs_corner(cornerFilename, FileStorage::READ);
-    fs_corner["corner_points"] >> imgPoints;
+    fs_corner["corner_points"] >> boardCorners;
 
-//    cout << "image points: " << endl;
-//    cout << imgPoints << endl;
+    cout << "checkerboard width: " << boardSize.width << endl;
+    cout << "checkerboard height: " << boardSize.height << endl;
 
-    for(int i = 0; i < boardSize.width; i++)
+    // save the object points and image points
+    for (int s = 0; s < boardSize.area(); ++s)
     {
-        for(int j = 0; j < boardSize.height; j++)
-        {
-            objPoints.push_back(Point3f(float(j * squareSize), float(i * squareSize), 0));
-        }
-    }
+        float x = float(s / boardSize.width * squareSize);
+        float y = float(s % boardSize.width * squareSize);
+        float z = 0;
 
-//    cout << "object points: " << endl;
-//    cout << objPoints << endl;
+        objPoints.push_back(Point3f(x, y, z));
+        imgPoints.push_back(boardCorners[s]);
+
+//        cout << "object point: " << Point3f(x, y, z) << endl;
+//        cout << "image point: " << boardCorners[s] << endl;
+    }
 
     VideoCapture cap;
     cap.open(inputFilename);
@@ -61,10 +65,15 @@ int main(int argc, char** argv)
 
     cvtColor(view, viewGray, COLOR_BGR2GRAY);
 
+    const float x_len = float(squareSize * (boardSize.height - 1));
+    const float y_len = float(squareSize * (boardSize.width - 1));
+    const float z_len = float(squareSize * 3);
+
     vector<Point3f> axisObjPoints;
-    axisObjPoints.push_back(Point3f(5*squareSize, 0, 0));
-    axisObjPoints.push_back(Point3f(0, 5*squareSize, 0));
-    axisObjPoints.push_back(Point3f(0, 0, -5*squareSize));
+    axisObjPoints.push_back(Point3f(0, 0, 0));
+    axisObjPoints.push_back(Point3f(x_len, 0, 0));
+    axisObjPoints.push_back(Point3f(0, y_len, 0));
+    axisObjPoints.push_back(Point3f(0, 0, z_len));
 
     vector<Point2f> axisImgPoints;
 
@@ -82,9 +91,9 @@ int main(int argc, char** argv)
     {
         projectPoints(axisObjPoints, rvecs, tvecs, cameraMatrix, distCoeffs, axisImgPoints);
 
-        line(view, imgPoints[0], axisImgPoints[0], Scalar(255,0,0), 2);
-        line(view, imgPoints[0], axisImgPoints[1], Scalar(0,255,0), 2);
-        line(view, imgPoints[0], axisImgPoints[2], Scalar(0,0,255), 2);
+        line(view, imgPoints[0], axisImgPoints[1], Scalar(255,0,0), 2);
+        line(view, imgPoints[0], axisImgPoints[2], Scalar(0,255,0), 2);
+        line(view, imgPoints[0], axisImgPoints[3], Scalar(0,0,255), 2);
         circle(view, imgPoints[0], 4, Scalar(255, 255, 0), -1, FILLED);
 
         imwrite(outputFilename, view);

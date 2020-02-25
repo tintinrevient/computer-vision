@@ -1,12 +1,22 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
+#include <thread>
+
+#include <pcl/common/common_headers.h>
+#include <pcl/features/normal_3d.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/console/parse.h>
+
 using namespace cv;
 using namespace std;
+using namespace pcl;
+using namespace std::chrono_literals;
 
-int temp[5000];
-bool voxelMapping(Mat &frame, Point2f &image_point);
-void voxelProjection(Mat &frame, vector<Point2f> &image_points, const string &outputFilename);
+bool mapVoxel(Mat &frame, Point2f &image_point);
+void projectVoxel(Mat &frame, vector<Point2f> &image_points, const string &outputFilename);
+visualization::PCLVisualizer::Ptr drawVoxel(PointCloud<pcl::PointXYZ>::ConstPtr cloud);
 
 int main(int argc, char** argv)
 {
@@ -71,18 +81,22 @@ int main(int argc, char** argv)
     vector<int> valid_voxels_index;
 
     // debug
+    vector<int> valid_voxels_cam1_index;
+    vector<int> valid_voxels_cam2_index;
+    vector<int> valid_voxels_cam3_index;
+    vector<int> valid_voxels_cam4_index;
+
+    // debug
 //    vector<Point2f> _image_points_cam4;
 //    string outputFilename = "./data/cam4/voxel.png";
 //    projectPoints(voxels, rvecs_cam3, tvecs_cam4, cameraMatrix_cam4, distCoeffs_cam4, _image_points_cam4);
-//    voxelProjection(frame_cam4, _image_points_cam4, outputFilename);
+//    projectVoxel(frame_cam4, _image_points_cam4, outputFilename);
 
     for(int i = 0; i < voxels.size(); i++)
     {
         Point3f voxel_point = voxels[i];
         vector<Point3f> voxel_points;
         voxel_points.push_back(voxel_point);
-
-        cout << "voxel: " << voxel_point << endl;
 
         Point2f image_point_cam1;
         vector<Point2f> image_points_cam1;
@@ -101,26 +115,84 @@ int main(int argc, char** argv)
         image_points_cam4.push_back(image_point_cam4);
 
         projectPoints(voxel_points, rvecs_cam1, tvecs_cam1, cameraMatrix_cam1, distCoeffs_cam1, image_points_cam1);
-        bool is_cam1_mapped = voxelMapping(frame_cam1, image_points_cam1[0]);
+        bool is_cam1_mapped = mapVoxel(frame_cam1, image_points_cam1.front());
 
         projectPoints(voxel_points, rvecs_cam2, tvecs_cam2, cameraMatrix_cam2, distCoeffs_cam2, image_points_cam2);
-        bool is_cam2_mapped = voxelMapping(frame_cam2, image_points_cam2[0]);
+        bool is_cam2_mapped = mapVoxel(frame_cam2, image_points_cam2.front());
 
         projectPoints(voxel_points, rvecs_cam3, tvecs_cam3, cameraMatrix_cam3, distCoeffs_cam3, image_points_cam3);
-        bool is_cam3_mapped = voxelMapping(frame_cam3, image_points_cam3[0]);
+        bool is_cam3_mapped = mapVoxel(frame_cam3, image_points_cam3.front());
 
         projectPoints(voxel_points, rvecs_cam4, tvecs_cam4, cameraMatrix_cam4, distCoeffs_cam4, image_points_cam4);
-        bool is_cam4_mapped = voxelMapping(frame_cam4, image_points_cam4[0]);
+        bool is_cam4_mapped = mapVoxel(frame_cam4, image_points_cam4.front());
 
-            if(is_cam1_mapped && is_cam2_mapped && is_cam3_mapped && is_cam4_mapped)
+        if(is_cam1_mapped && is_cam2_mapped && is_cam3_mapped && is_cam4_mapped)
             valid_voxels_index.push_back(i);
+
+        // debug
+        if(is_cam1_mapped)
+            valid_voxels_cam1_index.push_back(i);
+        if(is_cam2_mapped)
+            valid_voxels_cam2_index.push_back(i);
+        if(is_cam3_mapped)
+            valid_voxels_cam3_index.push_back(i);
+        if(is_cam4_mapped)
+            valid_voxels_cam4_index.push_back(i);
     }
 
-    cout << "valid voxels: " << valid_voxels_index.size() << endl;
+    // debug
+    cout << "valid voxels from cam1: " << valid_voxels_cam1_index.size() << endl;
+    cout << "valid voxels from cam2: " << valid_voxels_cam2_index.size() << endl;
+    cout << "valid voxels from cam3: " << valid_voxels_cam3_index.size() << endl;
+    cout << "valid voxels from cam4: " << valid_voxels_cam4_index.size() << endl;
 
+    // debug
+//    vector<int> intersection_cam1_cam2;
+//    set_intersection(valid_voxels_cam1_index.begin(), valid_voxels_cam1_index.end(),
+//                     valid_voxels_cam2_index.begin(), valid_voxels_cam2_index.end(),
+//                     back_inserter(intersection_cam1_cam2));
+//    cout << "intersection of cam1 and cam2: " << intersection_cam1_cam2.size() << endl;
+
+    cout << "valid voxels from all cams: " << valid_voxels_index.size() << endl;
+
+    PointCloud<pcl::PointXYZ>::Ptr basic_cloud_ptr(new PointCloud<PointXYZ>);
+
+    for(int i = 0; i < valid_voxels_index.size(); i++)
+    {
+        Point3f voxel_point = voxels[valid_voxels_index[i]];
+        pcl::PointXYZ basic_point;
+
+        basic_point.x = voxel_point.x;
+        basic_point.y = voxel_point.y;
+        basic_point.z = voxel_point.z;
+
+        basic_cloud_ptr->points.push_back(basic_point);
+    }
+
+    basic_cloud_ptr->width = (int) basic_cloud_ptr->points.size();
+    basic_cloud_ptr->height = 1;
+
+    visualization::PCLVisualizer::Ptr viewer = drawVoxel(basic_cloud_ptr);
+
+    while (!viewer->wasStopped())
+    {
+        viewer->spinOnce(100);
+        std::this_thread::sleep_for(100ms);
+    }
 }
 
-void voxelProjection(Mat &frame, vector<Point2f> &image_points, const string &outputFilename)
+visualization::PCLVisualizer::Ptr drawVoxel(PointCloud<pcl::PointXYZ>::ConstPtr cloud)
+{
+    visualization::PCLVisualizer::Ptr viewer(new visualization::PCLVisualizer("3D Viewer"));
+    viewer->setBackgroundColor(0, 0, 0);
+    viewer->addPointCloud<pcl::PointXYZ>(cloud, "voxel cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "voxel cloud");
+    viewer->addCoordinateSystem(1.0);
+    viewer->initCameraParameters();
+    return (viewer);
+}
+
+void projectVoxel(Mat &frame, vector<Point2f> &image_points, const string &outputFilename)
 {
     int width = frame.size().width;
     int height = frame.size().height;
@@ -149,10 +221,8 @@ void voxelProjection(Mat &frame, vector<Point2f> &image_points, const string &ou
     destroyWindow(imageWindow);
 }
 
-bool voxelMapping(Mat &frame, Point2f &image_point)
+bool mapVoxel(Mat &frame, Point2f &image_point)
 {
-    cout << "image point: " << image_point << endl;
-
     int width = frame.size().width;
     int height = frame.size().height;
 
