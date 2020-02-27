@@ -9,12 +9,12 @@ const int saturation_threshold = 43;
 const int value_threshold = 49;
 
 const int hsv_threshold_max = 50;
-const int signal_threshold_max = 200;
+const int num_of_signals_threshold = 200;
 const int signal_threshold = 30;
 
 void initBackground(const string &backgroundInputFilename, const string &backgroundOutputFilename);
 void processForeground(const string &frameInputFilename, const string &backgroundInputFilename, const string &foregroundOutputFilename, bool use_preset_threshold);
-int signal(const Mat &foreground);
+int numOfSignals(const Mat &foreground);
 Mat threshold(vector<Mat> &frame_hsv_channels, vector<Mat> &background_hsv_channels, int hue_threshold, int saturation_threshold, int value_threshold);
 
 int main(int argc, char** argv)
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 
 //    initBackground(backgroundInputFilename, backgroundOutputFilename);
 
-    processForeground(frameInputFilename, backgroundInputFilename, foregroundOutputFilename, true);
+    processForeground(frameInputFilename, backgroundInputFilename, foregroundOutputFilename, false);
 
     return 0;
 }
@@ -76,13 +76,13 @@ void initBackground(const string &backgroundInputFilename, const string &backgro
     destroyWindow(imageWindow);
 }
 
-int signal(const Mat &foreground)
+int numOfSignals(const Mat &foreground)
 {
     Mat flat = foreground.reshape(1, foreground.total() * foreground.channels());
     vector<uchar> vector = foreground.isContinuous()? flat : flat.clone();
 
     int count = 0;
-    int signal = 0;
+    int num_of_signals = 0;
     bool flag = false;
 
     for(int i = 0; i < vector.size(); i++)
@@ -105,12 +105,12 @@ int signal(const Mat &foreground)
 
         if(flag == false && count > signal_threshold)
         {
-            signal++;
+            num_of_signals++;
             count = 0;
         }
     }
 
-    return signal;
+    return num_of_signals;
 }
 
 Mat threshold(vector<Mat> &frame_hsv_channels, vector<Mat> &background_hsv_channels, int hue_threshold, int saturation_threshold, int value_threshold)
@@ -162,9 +162,9 @@ void processForeground(const string &frameInputFilename, const string &backgroun
     vector<Mat> background_hsv_channels;
     split(background_hsv_image, background_hsv_channels);  // Split the HSV-channels for further analysis
 
-    int hue_threshold_min;
-    int saturation_threshold_min;
-    int value_threshold_min;
+    int hue_threshold_min = 0;
+    int saturation_threshold_min = 0;
+    int value_threshold_min = 0;
 
     if(use_preset_threshold)
     {
@@ -173,7 +173,7 @@ void processForeground(const string &frameInputFilename, const string &backgroun
         value_threshold_min = value_threshold;
 
     } else {
-        int signal_min = signal_threshold_max;
+        int num_of_signals = num_of_signals_threshold;
 
         for(int hue_threshold = 0; hue_threshold < hsv_threshold_max; hue_threshold++)
         {
@@ -185,9 +185,9 @@ void processForeground(const string &frameInputFilename, const string &backgroun
 
                     Mat foreground = threshold(frame_hsv_channels, background_hsv_channels, hue_threshold, saturation_threshold, value_threshold);
 
-                    if(signal(foreground) < signal_min)
+                    if(numOfSignals(foreground) < num_of_signals)
                     {
-                        signal_min = signal(foreground);
+                        num_of_signals = numOfSignals(foreground);
 
                         hue_threshold_min = hue_threshold;
                         saturation_threshold_min = saturation_threshold;
@@ -198,7 +198,7 @@ void processForeground(const string &frameInputFilename, const string &backgroun
         }
 
         cout << "Minimun HSV thresholds are found." << endl;
-        cout << "minimum signal: " << signal_min << endl;
+        cout << "minimum number of signals: " << num_of_signals << endl;
         cout << "minimum hue threshold: " << hue_threshold_min << endl;
         cout << "minimum saturation threshold: " << saturation_threshold_min << endl;
         cout << "minimum value threshold: " << value_threshold_min <<endl;
@@ -206,7 +206,7 @@ void processForeground(const string &frameInputFilename, const string &backgroun
 
     Mat foreground = threshold(frame_hsv_channels, background_hsv_channels, hue_threshold_min, saturation_threshold_min, value_threshold_min);
 
-    cout << "signal: " << signal(foreground) << endl;
+    cout << "number of signals: " << numOfSignals(foreground) << endl;
 
     // erode the foreground image
     Mat element = getStructuringElement(MORPH_RECT, Size(5,5));
