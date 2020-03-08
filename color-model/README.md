@@ -28,7 +28,7 @@
 
 6. Execute "voxel-visualization", the colored voxels w.r.t each person will animate in 3D space.
 
-## Command to compile voxel.cpp
+## Command to compile voxel-visualization.cpp
 ```
 $ cmake .
 $ make
