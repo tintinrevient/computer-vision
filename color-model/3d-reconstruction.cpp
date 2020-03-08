@@ -4,8 +4,7 @@
 using namespace cv;
 using namespace std;
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     string camNum = argv[1];
 
     string configFilename = "./data/" + camNum + "/intrinsics.xml";
@@ -41,8 +40,7 @@ int main(int argc, char** argv)
     cout << "checkerboard height: " << boardSize.height << endl;
 
     // save the object points and image points
-    for (int s = 0; s < boardSize.area(); ++s)
-    {
+    for (int s = 0; s < boardSize.area(); ++s) {
         float x = float(s / boardSize.width * squareSize);
         float y = float(s % boardSize.width * squareSize);
         float z = 0;
@@ -87,8 +85,7 @@ int main(int argc, char** argv)
 
     fs_cam_config.release();
 
-    if(ok)
-    {
+    if(ok) {
         projectPoints(axisObjPoints, rvecs, tvecs, cameraMatrix, distCoeffs, axisImgPoints);
 
         line(view, imgPoints[0], axisImgPoints[1], Scalar(255,0,0), 2);

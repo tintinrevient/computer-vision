@@ -8,8 +8,7 @@ void onMouse(int event, int x, int y, int flags, void* param);
 
 vector<Point2f> imgPoints;
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     string camNum = argv[1];
 
     string configFilename = "./data/" + camNum + "/intrinsics.xml";
@@ -45,14 +44,11 @@ int main(int argc, char** argv)
 
     cout << "Now mark the " << boardSize.area() << " interior corners of the checkerboard" << endl;
 
-    while ((int) imgPoints.size() < boardSize.area())
-    {
+    while ((int) imgPoints.size() < boardSize.area()) {
         canvas = view.clone();
 
-        if (!imgPoints.empty())
-        {
-            for (int c = 0; c < imgPoints.size(); c++)
-            {
+        if (!imgPoints.empty()) {
+            for (int c = 0; c < imgPoints.size(); c++) {
                 circle(canvas, imgPoints.at(c), 4, Scalar(255, 0, 255), 1, 8);
                 if (c > 0)
                     line(canvas, imgPoints.at(c), imgPoints.at(c - 1), Scalar(255, 0, 255), 1, 8);
@@ -60,12 +56,10 @@ int main(int argc, char** argv)
         }
 
         int key = waitKey(10);
-        if (key == 'q' || key == 'Q')
-        {
+        if (key == 'q' || key == 'Q') {
             break;
         }
-        else if (key == 'c' || key == 'C')
-        {
+        else if (key == 'c' || key == 'C') {
             imgPoints.pop_back();
         }
 
@@ -79,8 +73,7 @@ int main(int argc, char** argv)
     destroyAllWindows();
 
     FileStorage fs_corner(cornerFilename, FileStorage::WRITE);
-    if (fs_corner.isOpened())
-    {
+    if (fs_corner.isOpened()) {
         fs_corner << "corners_amount" << (int) imgPoints.size();
         fs_corner << "corner_points" << imgPoints;
         fs_corner.release();
@@ -89,15 +82,11 @@ int main(int argc, char** argv)
     return 0;
 }
 
-void onMouse(int event, int x, int y, int flags, void* param)
-{
-    switch (event)
-    {
+void onMouse(int event, int x, int y, int flags, void* param) {
+    switch (event) {
         case EVENT_LBUTTONDOWN:
-            if (flags == (EVENT_FLAG_LBUTTON + EVENT_FLAG_CTRLKEY))
-            {
-                if (!imgPoints.empty())
-                {
+            if (flags == (EVENT_FLAG_LBUTTON + EVENT_FLAG_CTRLKEY)) {
+                if (!imgPoints.empty()) {
                     cout << "Removed corner " << imgPoints.size() << "... (use Click to add)" << endl;
                     imgPoints.pop_back();
                 }
