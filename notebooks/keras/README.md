@@ -76,4 +76,47 @@ model.train(data)
 test_score = model.evaluate(test_data)
 ```
 
+## Overfitting
+
+* Getting more training data.
+* Reducing the capacity of the network. 
+* Adding weight regularization. 
+* Adding dropout.
+
+### L1 and L2 regularization
+
+```
+from keras import regularizers
+
+model = models.Sequential()
+model.add(layers.Dense(16, kernel_regularizer=regularizers.l2(0.001),
+                       activation='relu', input_shape=(10000,)))
+model.add(layers.Dense(16, kernel_regularizer=regularizers.l2(0.001),
+                       activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
+```
+
+```
+from keras import regularizers
+# L1 regularization
+regularizers.l1(0.001)
+
+# L1 and L2 regularization at the same time
+regularizers.l1_l2(l1=0.001, l2=0.001)
+```
+
+### Dropout
+<p float="left">
+    <img src="./pix/dropout.png" width="800" />
+</p>
+
+```
+# At training time:
+layer_output *= np.randint(0, high=2, size=layer_output.shape)
+
+# Note that we are scaling *up* rather scaling *down* in this case
+layer_output /= 0.5
+```
+
+
 ## References
