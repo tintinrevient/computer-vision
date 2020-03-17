@@ -40,7 +40,7 @@ test_score = model.evaluate(test_data)
 
 ### K-fold validation
 <p float="left">
-	<img src="./pix/k-fold-validation.png" width="500" />
+	<img src="./pix/k-fold-validation.png" width="800" />
 </p>
 
 ```
