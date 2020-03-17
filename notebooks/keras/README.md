@@ -40,7 +40,7 @@ test_score = model.evaluate(test_data)
 
 ### K-fold validation
 <p float="left">
-	<img src="./pix/k-fold-validation.png" width="800" />
+	<img src="./pix/k-fold-validation.png" width="700" />
 </p>
 
 ```
@@ -107,7 +107,7 @@ regularizers.l1_l2(l1=0.001, l2=0.001)
 
 ### Dropout
 <p float="left">
-    <img src="./pix/dropout.png" width="800" />
+    <img src="./pix/dropout.png" width="700" />
 </p>
 
 ```
