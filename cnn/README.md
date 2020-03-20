@@ -42,7 +42,6 @@ dense_5 (Dense)              (None, 10)                1290
 Total params: 1,499,342
 Trainable params: 1,499,342
 Non-trainable params: 0
-
 ```
 
 ### Model 2
@@ -73,7 +72,6 @@ dense_3 (Dense)              (None, 10)                1290
 Total params: 2,836,810
 Trainable params: 2,836,746
 Non-trainable params: 64
-
 ```
 
 ### Model 3
@@ -104,7 +102,6 @@ dense_2 (Dense)              (None, 10)                5130
 Total params: 1,681,994
 Trainable params: 1,681,674
 Non-trainable params: 320
-
 ```
 
 ## References
