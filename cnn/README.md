@@ -18,6 +18,23 @@ weights2 = np.load('./weights/weights_model_2.npy', allow_pickle=True)
 weights3 = np.load('./weights/weights_model_3.npy', allow_pickle=True)
 ```
 
+## Data Augmentation
+
+### Model 1
+<p float="left">
+  <img src="./pix/data-augmentation-model-1.png" width="800">
+</p>
+
+### Model 2
+<p float="left">
+  <img src="./pix/data-augmentation-model-2.png" width="800">
+</p>
+
+### Model 3
+<p float="left">
+  <img src="./pix/data-augmentation-model-3.png" width="800">
+</p>
+
 ## Architecture of models
 
 ### Model 1
@@ -42,7 +59,6 @@ dense_5 (Dense)              (None, 10)                1290
 Total params: 1,499,342
 Trainable params: 1,499,342
 Non-trainable params: 0
-
 ```
 
 ### Model 2
@@ -73,7 +89,6 @@ dense_3 (Dense)              (None, 10)                1290
 Total params: 2,836,810
 Trainable params: 2,836,746
 Non-trainable params: 64
-
 ```
 
 ### Model 3
@@ -104,7 +119,6 @@ dense_2 (Dense)              (None, 10)                5130
 Total params: 1,681,994
 Trainable params: 1,681,674
 Non-trainable params: 320
-
 ```
 
 ## References
