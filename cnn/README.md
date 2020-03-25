@@ -22,17 +22,17 @@ weights3 = np.load('./weights/weights_model_3.npy', allow_pickle=True)
 
 ### Model 1
 <p float="left">
-  <img src="./pix/data-augmentation-model-1.png" width="800">
+  <img src="./pix/data-augmentation-model-1.png" width="700">
 </p>
 
 ### Model 2
 <p float="left">
-  <img src="./pix/data-augmentation-model-2.png" width="800">
+  <img src="./pix/data-augmentation-model-2.png" width="700">
 </p>
 
 ### Model 3
 <p float="left">
-  <img src="./pix/data-augmentation-model-3.png" width="800">
+  <img src="./pix/data-augmentation-model-3.png" width="700">
 </p>
 
 ## Architecture of models
