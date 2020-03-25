@@ -22,17 +22,38 @@ weights3 = np.load('./weights/weights_model_3.npy', allow_pickle=True)
 
 ### Model 1
 <p float="left">
-  <img src="./pix/data-augmentation-model-1.png" width="800">
+  <img src="./pix/data-augmentation-model-1.png" width="700">
 </p>
 
 ### Model 2
 <p float="left">
-  <img src="./pix/data-augmentation-model-2.png" width="800">
+  <img src="./pix/data-augmentation-model-2.png" width="700">
 </p>
 
 ### Model 3
 <p float="left">
-  <img src="./pix/data-augmentation-model-3.png" width="800">
+  <img src="./pix/data-augmentation-model-3.png" width="700">
+</p>
+
+## Confusion Matrix
+
+Model 1 is already shown in the report.
+<p float="left">
+  <img src="./pix/confusion-matrix.png" width="700">
+</p>
+
+## Dynamically Decreasing Learning Rate
+
+Model 2 with updated Learning Rate: Train / Validation / Test top-1 accuracy table
+
+|                         | Train (train dataset) | Validation (validation dataset) | Test (test dataset) |
+|-------------------------|-----------------------|---------------------------------|---------------------|
+| Model 2 with updated LR | 97.37%                | 93.08%                          | 92.86%              |
+
+
+Model 2 with updated Learning Rate: Train and validation accuracy and loss graphs
+<p float="left">
+  <img src="./pix/lr-model-2.png" width="700">
 </p>
 
 ## Architecture of models
